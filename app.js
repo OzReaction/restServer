@@ -16,12 +16,13 @@ var uri = "mongodb://EnvMaaS:u4xWTPFWBDD1wZ3W@envmaas-shard-00-00-yxwzs.mongodb.
           "&ssl=true"+
           "&authSource=admin";
 
-MongoClient.connect(uri, function(err, db) {
-  if ( e ) { console.error('Connection Failed');
-    return console.log(e); }
+mongoose.connect(uri, function(error, db) {
+
+  if ( error ) { console.error('Connection Failed');
+    return console.log(error); }
   console.log("Connected");
-  db.collection('Members').find().toArray(function(e,d) {
-    if ( e ) { console.log('error'); console.log(e);  }
+  db.collection('Members').find().toArray(function(error,d) {
+    if ( error ) { console.log('error'); console.log(e);  }
       console.log(d);
   });
     db.close();
