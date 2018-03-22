@@ -1,5 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
+const MongoClient = require('mongoose').MongoClient;
+
+const Sensors = require('../models/sensors');
 
 router.get('/', (req, res, next) => {
   res.status(200).json({
@@ -7,14 +11,22 @@ router.get('/', (req, res, next) => {
   });
 });
 
+// Add a Sensor
 router.post('/', (req, res, next) => {
-  const sensor = {
-    name: req.body.name,
+  const sensors = new Sensors({
+    _id: new mongoose.Types.ObjectId(),
+    company: req.body.company,
     location: req.body.location
-  }
+  });
+  sensors
+    .save()
+    .then(result => {
+      console.log(result);
+    })
+    .catch(err => console.log(err));
   res.status(201).json({
-    message: 'Sensors Created',
-    sensor: sensor
+    message: 'Sensor Added',
+    sensors: sensors
   });
 });
 

@@ -9,6 +9,7 @@ var MongoClient = require('mongoose').MongoClient
 const memberRoutes = require('./api/routes/members');
 const sensorRoutes = require('./api/routes/sensors');
 
+// Mongoose Connection
 var uri = "mongodb://EnvMaaS:u4xWTPFWBDD1wZ3W@envmaas-shard-00-00-yxwzs.mongodb.net:27017,"+
           "envmaas-shard-00-01-yxwzs.mongodb.net:27017,"+
           "envmaas-shard-00-02-yxwzs.mongodb.net:27017/test"+
@@ -18,6 +19,7 @@ var uri = "mongodb://EnvMaaS:u4xWTPFWBDD1wZ3W@envmaas-shard-00-00-yxwzs.mongodb.
 
 mongoose.connect(uri, function(error, db) {
 
+// MEMBERS
   if ( error ) { console.error('Connection Failed');
     return console.log(error); }
   console.log("Connected");
@@ -25,9 +27,19 @@ mongoose.connect(uri, function(error, db) {
     if ( error ) { console.log('error'); console.log(e);  }
       console.log(d);
   });
+  // SENSORS
+  if ( error ) { console.error('Connection Failed');
+    return console.log(error); }
+  console.log("Connected");
+  db.collection('Sensors').find().toArray(function(error,d) {
+    if ( error ) { console.log('error'); console.log(e);  }
+      console.log(d);
+  });
+  // CLOSE CONNECTION
     db.close();
 });
 
+//
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
